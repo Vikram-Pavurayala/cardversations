@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Know More - Get to Know Each Other</title>
+    <title>Cardversations</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -679,7 +679,7 @@
     <div class="container">
         <!-- Welcome Screen -->
         <div class="screen" id="welcome-screen">
-            <h1>Know More</h1>
+            <h1>Cardversations</h1>
             <p class="subtitle">A fun card game to deepen your connections</p>
             <button class="btn" id="start-btn"><i class="fas fa-play"></i> Start Game</button>
         </div>
@@ -1052,8 +1052,8 @@
                 const cardBack = document.createElement('div');
                 cardBack.className = 'card-face card-back';
                 cardBack.innerHTML = `
-                    <div class="logo">KM</div>
-                    <div>Know More</div>
+                    <div class="logo">C</div>
+                    <div>Cardversations</div>
                 `;
                 
                 const cardFront = document.createElement('div');
@@ -1115,18 +1115,7 @@
         }
 
         function resetGame() {
-            players = [];
-            currentPlayerIndex = 0;
-            remainingCards = [...questions];
-            pickedCards = [];
-            
-            // Reset UI
-            playerCountInput.disabled = false;
-            playerCountInput.value = 2;
-            playerInputsContainer.innerHTML = '';
-            playerInputsContainer.style.display = 'none';
-            startGameBtn.style.display = 'none';
-            document.getElementById('continue-btn').style.display = 'inline-block';
+            location.reload();
         }
 
         // Initialize the game
