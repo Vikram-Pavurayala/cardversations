@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Know More - Get to Know Each Other</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            background: linear-gradient(135deg, #4f46e5, #7e22ce);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            color: #fff;
+            transition: background 1s ease;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 850px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #4f46e5, #7e22ce);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .preloader-content {
+            text-align: center;
+        }
+        
+        .preloader h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 1s forwards;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #c7d2fe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .preloader p {
+            font-size: 1.3rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 1s 0.5s forwards;
+        }
+        
+        .loader {
+            width: 60px;
+            height: 60px;
+            position: relative;
+            margin: 40px auto;
+            opacity: 0;
+            animation: fadeIn 1s 1s forwards;
+        }
+        
+        .loader:before, .loader:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid transparent;
+            border-top-color: #ffffff;
+        }
+        
+        .loader:before {
+            z-index: 10;
+            animation: spin 1s infinite;
+        }
+        
+        .loader:after {
+            border: 5px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes floatIn {
+            0% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .screen {
+            display: none;
+            animation: scaleIn 0.5s forwards;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        h1 {
+            font-size: 3.2rem;
+            margin-bottom: 30px;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #c7d2fe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            background-color: #ffffff;
+            color: #4f46e5;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            background-color: #f8f8f8;
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            20% {
+                transform: scale(25, 25);
+                opacity: 0.3;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(40, 40);
+            }
+        }
+        
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 35px;
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            max-width: 550px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            margin: 12px 0;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .player-inputs {
+            margin-top: 25px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .player-inputs::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .player-inputs::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .player-inputs::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+        
+        .player-input-container {
+            position: relative;
+            margin-bottom: 12px;
+            animation: floatIn 0.5s forwards;
+        }
+        
+        .player-color {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .player-color:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            perspective: 1000px;
+        }
+        
+        .card {
+            width: 160px;
+            height: 220px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .card-front {
+            background: linear-gradient(135deg, #f43f5e, #ec4899);
+            transform: rotateY(180deg);
+            font-size: 1rem;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .card-front::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .card-front::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .card-back {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .card-back .logo {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-back .pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0.1;
+            background-image: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .card-back::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .card-back::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .status-bar {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .players-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .player-avatar {
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        .player-avatar.active {
+            opacity: 1;
+            transform: scale(1.05);
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .question-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 35px;
+            max-width: 550px;
+            margin: 30px auto;
+            animation: scaleIn 0.5s forwards;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: -70px;
+            left: -70px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        
+        .question-card::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        
+        .question-card h2 {
+            margin-bottom: 25px;
+            color: #fff;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .question-card h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin: 30px 0;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            top: 0;
+            z-index: -1;
+        }
+        
+        .timer-container {
+            margin-top: 20px;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .timer-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, #4ade80, #10b981);
+            transform-origin: left;
+            transform: scaleX(1);
+            transition: transform linear;
+        }
+        
+        .avatar-icon {
+            margin-right: 8px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #4f46e5;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transform: translateX(120%);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            font-weight: 500;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .player-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            min-width: 180px;
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        .stat-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .card {
+                width: 140px;
+                height: 200px;
+            }
+            
+            .glass-panel, .question-card {
+                padding: 25px;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                width: 120px;
+                height: 170px;
+            }
+            
+            .card-back .logo {
+                font-size: 2rem;
+            }
+            
+            .glass-panel, .question-card {
+                padding: 20px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <h1>Know More</h1>
+            <p>Get to know your friends better</p>
+            <div class="loader"></div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">
+        Notification text here
+    </div>
+    
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div class="screen" id="welcome-screen">
+            <h1>Know More</h1>
+            <p class="subtitle">A fun card game to deepen your connections</p>
+            <button class="btn" id="start-btn"><i class="fas fa-play"></i> Start Game</button>
+        </div>
+        
+        <!-- Player Setup Screen -->
+        <div class="screen" id="setup-screen">
+            <h1>Set Up Players</h1>
+            <div class="glass-panel">
+                <div class="player-count-container">
+                    <label for="player-count">How many players? (2)</label>
+                    <div style="display: flex; align-items: center; margin: 15px 0;">
+                        <button class="btn" id="decrease-player-btn" style="margin: 0; padding: 8px 15px;">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="number" id="player-count" min="2" value="2" style="width: 80px; text-align: center; margin: 0 10px;">
+                        <button class="btn" id="increase-player-btn" style="margin: 0; padding: 8px 15px;">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <button class="btn" id="continue-btn">Continue</button>
+                </div>
+                
+                <div class="player-inputs" id="player-inputs" style="display: none;">
+                    <!-- Player name inputs will be generated here -->
+                </div>
+                <button class="btn" id="start-game-btn" style="display: none;">
+                    <i class="fas fa-gamepad"></i> Start Game
+                </button>
+            </div>
+        </div>
+        
+        <!-- Game Screen -->
+        <div class="screen" id="game-screen">
+            <div class="status-bar">
+                <h2 id="current-player-display">Player's Turn</h2>
+                <p>Pick a card to reveal a question</p>
+                <div class="players-list" id="players-list">
+                    <!-- Player avatars will appear here -->
+                </div>
+            </div>
+            
+            <div class="cards-container" id="cards-container">
+                <!-- Cards will be generated here -->
+            </div>
+        </div>
+        
+        <!-- Question Screen -->
+        <div class="screen" id="question-screen">
+            <div class="question-card">
+                <h2 id="question-player-name">Player Name</h2>
+                <p class="question-text" id="question-text">Question goes here</p>
+                <div class="timer-container" id="timer-container">
+                    <div class="timer-bar" id="timer-bar"></div>
+                </div>
+                <button class="btn" id="next-player-btn">
+                    <i class="fas fa-arrow-right"></i> Next Player
+                </button>
+            </div>
+        </div>
+        
+        <!-- Game Over Screen -->
+        <div class="screen" id="game-over-screen">
+            <h1>Game Over!</h1>
+            <p class="subtitle">Hope you got to know each other better!</p>
+            
+            <div class="player-stats" id="player-stats">
+                <!-- Player stats will be shown here -->
+            </div>
+            
+            <button class="btn" id="play-again-btn">
+                <i class="fas fa-redo"></i> Play Again
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Questions for the cards - expanded list
+        const questions = [
+            "What's your favorite childhood memory?",
+            "If you could have any superpower, what would it be and why?",
+            "What's one thing that can instantly make your day better?",
+            "What's the most adventurous thing you've ever done?",
+            "If you could master any skill instantly, what would it be?",
+            "What's your favorite way to spend a free day?",
+            "What's something you're proud of but don't often talk about?",
+            "If you could live anywhere in the world, where would it be?",
+            "What's your favorite book or movie and why?",
+            "What's something you've always wanted to try but haven't yet?",
+            "If you could have dinner with anyone (dead or alive), who would it be?",
+            "What's a personal goal you're working towards?",
+            "What three items would you take to a deserted island?",
+            "What's your favorite memory from the past year?",
+            "If you could change one thing about yourself, what would it be?",
+            "What's your idea of a perfect day?",
+            "What's a life lesson you learned the hard way?",
+            "What's something that always makes you laugh?",
+            "If you could go back in time, what advice would you give your younger self?",
+            "What's the best advice you've ever received?",
+            "What's something you believe that most people don't?",
+            "What are you most grateful for in your life?",
+            "What's a small thing that makes you disproportionately happy?",
+            "What hobby would you get into if time and money weren't an issue?",
+            "What's something unexpected that changed your life?"
+        ];
+
+        // Predefined player colors
+        const playerColors = [
+            "#f43f5e", "#ec4899", "#8b5cf6", "#6366f1", 
+            "#3b82f6", "#0ea5e9", "#10b981", "#84cc16", 
+            "#eab308", "#f97316"
+        ];
+
+        // Game state
+        let players = [];
+        let currentPlayerIndex = 0;
+        let remainingCards = [...questions];
+        let pickedCards = [];
+        let playerStats = {};
+        let answerTimer;
+        let timerDuration = 60; // seconds
+        
+        // DOM Elements
+        const preloader = document.getElementById('preloader');
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const setupScreen = document.getElementById('setup-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const questionScreen = document.getElementById('question-screen');
+        const gameOverScreen = document.getElementById('game-over-screen');
+        const playerCountInput = document.getElementById('player-count');
+        const playerInputsContainer = document.getElementById('player-inputs');
+        const startGameBtn = document.getElementById('start-game-btn');
+        const cardsContainer = document.getElementById('cards-container');
+        const currentPlayerDisplay = document.getElementById('current-player-display');
+        const questionPlayerName = document.getElementById('question-player-name');
+        const questionText = document.getElementById('question-text');
+        const timerBar = document.getElementById('timer-bar');
+        const playersListContainer = document.getElementById('players-list');
+        const playerStatsContainer = document.getElementById('player-stats');
+        const notification = document.getElementById('notification');
+
+        // Event Listeners
+        document.getElementById('start-btn').addEventListener('click', () => {
+            showScreen(setupScreen);
+        });
+
+        document.getElementById('continue-btn').addEventListener('click', () => {
+            const count = parseInt(playerCountInput.value);
+            if (count >= 2 && count <= 10) {
+                playerInputsContainer.style.display = 'block';
+                generatePlayerInputs(count);
+                startGameBtn.style.display = 'block';
+                document.getElementById('continue-btn').style.display = 'none';
+                document.querySelector('.player-count-container').style.display = 'none';
+            } else {
+                showNotification('Please enter between 2 and 10 players');
+            }
+        });
+        
+        document.getElementById('decrease-player-btn').addEventListener('click', () => {
+            const currentValue = parseInt(playerCountInput.value);
+            if (currentValue > 2) {
+                playerCountInput.value = currentValue - 1;
+            }
+        });
+        
+        document.getElementById('increase-player-btn').addEventListener('click', () => {
+            const currentValue = parseInt(playerCountInput.value);
+            if (currentValue < 10) {
+                playerCountInput.value = currentValue + 1;
+            }
+        });
+
+        startGameBtn.addEventListener('click', () => {
+            if (collectPlayerNames()) {
+                initializePlayerStats();
+                initializeGame();
+                showScreen(gameScreen);
+                //updatePlayersAvatars();
+            }
+        });
+
+        document.getElementById('next-player-btn').addEventListener('click', () => {
+            clearTimeout(answerTimer);
+            nextPlayer();
+        });
+
+        document.getElementById('play-again-btn').addEventListener('click', () => {
+            resetGame();
+            showScreen(setupScreen);
+        });
+
+        // Functions
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        function initializePlayerStats() {
+            playerStats = {};
+            players.forEach(player => {
+                playerStats[player.name] = {
+                    questionsAnswered: 0,
+                    color: player.color
+                };
+            });
+        }
+        
+        function updatePlayerStats(playerName) {
+            if (playerStats[playerName]) {
+                playerStats[playerName].questionsAnswered++;
+            }
+        }
+        
+        function displayPlayerStats() {
+            playerStatsContainer.innerHTML = '';
+            
+            players.forEach(player => {
+                const stat = playerStats[player.name];
+                const percentage = Math.round((stat.questionsAnswered / questions.length) * 100);
+                
+                const statCard = document.createElement('div');
+                statCard.className = 'stat-card';
+                statCard.style.borderLeft = `4px solid ${player.color}`;
+                
+                statCard.innerHTML = `
+                    <h3>${player.name}</h3>
+                    <div>Questions: ${stat.questionsAnswered}</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: ${percentage}%; background-color: ${player.color}"></div>
+                    </div>
+                `;
+                
+                playerStatsContainer.appendChild(statCard);
+            });
+        }
+        
+        function createConfetti() {
+            const confettiCount = 100;
+            const container = document.querySelector('body');
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                // Random properties
+                const size = Math.floor(Math.random() * 10) + 5;
+                const color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                const left = Math.random() * 100;
+                const animationDuration = Math.random() * 3 + 2;
+                
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.backgroundColor = color;
+                confetti.style.left = `${left}vw`;
+                confetti.style.animationDuration = `${animationDuration}s`;
+                
+                // Add animation
+                confetti.style.animation = `
+                    fall ${animationDuration}s linear forwards
+                `;
+                
+                // Create keyframe animation
+                const keyframes = `
+                    @keyframes fall {
+                        0% {
+                            transform: translateY(0) rotate(0deg);
+                            opacity: 1;
+                        }
+                        100% {
+                            transform: translateY(100vh) rotate(${Math.random() * 360}deg);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                
+                const style = document.createElement('style');
+                style.innerHTML = keyframes;
+                document.head.appendChild(style);
+                
+                container.appendChild(confetti);
+                
+                // Remove confetti after animation completes
+                setTimeout(() => {
+                    confetti.remove();
+                    style.remove();
+                }, animationDuration * 1000);
+            }
+        }
+
+        function hidePreloader() {
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                preloader.style.transition = 'opacity 1s ease';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    showScreen(welcomeScreen);
+                }, 1000);
+            }, 2000);
+        }
+
+        function showScreen(screen) {
+            document.querySelectorAll('.screen').forEach(s => {
+                s.classList.remove('active');
+            });
+            screen.classList.add('active');
+        }
+
+        function generatePlayerInputs(count) {
+            playerInputsContainer.innerHTML = '';
+            for (let i = 0; i < count; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = `Player ${i + 1} Name`;
+                input.className = 'player-name-input';
+                input.required = true;
+                playerInputsContainer.appendChild(input);
+            }
+        }
+
+        function collectPlayerNames() {
+            const inputFields = document.querySelectorAll('.player-name-input');
+            players = [];
+            
+            let allFilled = true;
+            inputFields.forEach(input => {
+                if (input.value.trim() === '') {
+                    allFilled = false;
+                    input.style.borderColor = 'red';
+                } else {
+                    players.push(input.value.trim());
+                }
+            });
+            
+            return allFilled;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function initializeGame() {
+            // Shuffle questions for randomness
+            remainingCards = shuffleArray([...questions]);
+            pickedCards = [];
+            currentPlayerIndex = 0;
+            
+            // Update player display
+            updateCurrentPlayerDisplay();
+            
+            // Create card deck
+            createCardDeck();
+        }
+
+        function createCardDeck() {
+            cardsContainer.innerHTML = '';
+            
+            for (let i = 0; i < remainingCards.length; i++) {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.index = i;
+                
+                const cardBack = document.createElement('div');
+                cardBack.className = 'card-face card-back';
+                cardBack.innerHTML = `
+                    <div class="logo">KM</div>
+                    <div>Know More</div>
+                `;
+                
+                const cardFront = document.createElement('div');
+                cardFront.className = 'card-face card-front';
+                cardFront.textContent = remainingCards[i];
+                
+                card.appendChild(cardBack);
+                card.appendChild(cardFront);
+                
+                card.addEventListener('click', handleCardClick);
+                
+                cardsContainer.appendChild(card);
+            }
+        }
+
+        function handleCardClick(event) {
+            const card = event.currentTarget;
+            const cardIndex = parseInt(card.dataset.index);
+            
+            // Prevent clicking already flipped cards
+            if (card.classList.contains('flipped')) {
+                return;
+            }
+            
+            // Flip the card with animation
+            card.classList.add('flipped');
+            
+            // After animation completes, show the question screen
+            setTimeout(() => {
+                const question = remainingCards[cardIndex];
+                questionText.textContent = question;
+                questionPlayerName.textContent = `${players[currentPlayerIndex]}'s Question:`;
+                
+                // Remove this card from remaining and add to picked
+                pickedCards.push(question);
+                remainingCards.splice(cardIndex, 1);
+                
+                showScreen(questionScreen);
+            }, 800);
+        }
+
+        function updateCurrentPlayerDisplay() {
+            currentPlayerDisplay.textContent = `${players[currentPlayerIndex]}'s Turn`;
+        }
+
+        function nextPlayer() {
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            
+            // Check if game is over (no more cards)
+            if (remainingCards.length === 0) {
+                createConfetti();
+                showScreen(gameOverScreen);
+                return;
+            }
+            
+            updateCurrentPlayerDisplay();
+            createCardDeck(); // Recreate the card deck with remaining cards
+            showScreen(gameScreen);
+        }
+
+        function resetGame() {
+            players = [];
+            currentPlayerIndex = 0;
+            remainingCards = [...questions];
+            pickedCards = [];
+            
+            // Reset UI
+            playerCountInput.disabled = false;
+            playerCountInput.value = 2;
+            playerInputsContainer.innerHTML = '';
+            playerInputsContainer.style.display = 'none';
+            startGameBtn.style.display = 'none';
+            document.getElementById('continue-btn').style.display = 'inline-block';
+        }
+
+        // Initialize the game
+        window.addEventListener('load', hidePreloader);
+    </script>
+</body>
+</html>
